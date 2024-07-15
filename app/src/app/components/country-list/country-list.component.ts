@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CountryService } from '../../country.service';
+import { ExportCsvService } from '../../export-csv.service';
 import * as $ from 'jquery';
 
 enum SortableFields {
@@ -21,10 +22,11 @@ export class CountryListComponent implements OnInit {
   editCountryForm!: FormGroup;
   selectedCountry!: any;
   filterName: string = '';
-  SortableFields = SortableFields; // Ajout de la propriété SortableFields
+  SortableFields = SortableFields;
 
   constructor(
     private countryService: CountryService,
+    private exportCsvService: ExportCsvService,
     private fb: FormBuilder
   ) {}
 
@@ -59,7 +61,7 @@ export class CountryListComponent implements OnInit {
         ...this.editCountryForm.value,
       };
       this.countryService.updateCountry(updatedCountry);
-      this.countries = this.countryService.getCountries(); // Update countries array
+      this.countries = this.countryService.getCountries();
       this.hideEditModal();
     }
   }
@@ -95,5 +97,18 @@ export class CountryListComponent implements OnInit {
         return 0;
       }
     });
+  }
+
+  exportToCsv(): void {
+    const headers = [
+      { id: 'name', title: 'Name' },
+      { id: 'superficie', title: 'Superficie' },
+      { id: 'population', title: 'Population' },
+      { id: 'continent', title: 'Continent' },
+      { id: 'produit_interieur_brut', title: 'Produit Intérieur Brut' },
+      { id: 'imageUrl', title: 'Image URL' }
+    ];
+
+    this.exportCsvService.exportToCsv(this.countries, 'countries.csv', headers);
   }
 }

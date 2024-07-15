@@ -11,6 +11,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { HomeComponent } from './components/home/home.component';
 import { CountryItemComponent } from './components/country-item/country-item.component';
 import { CountryService } from './country.service';
+import { ExportCsvService } from './export-csv.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { CountryService } from './country.service';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [CountryService],
+  providers: [CountryService,ExportCsvService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

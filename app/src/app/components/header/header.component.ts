@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as $ from 'jquery';
 import { CountryService } from '../../country.service';
+import { ExportCsvService } from '../../export-csv.service'; 
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,8 @@ import { CountryService } from '../../country.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-  @ViewChild('nameInput') nameInput!: ElementRef; // Ajout de ViewChild pour récupérer l'élément input
+
+  @ViewChild('nameInput') nameInput!: ElementRef;
 
   addCountryForm!: FormGroup;
   inputFields = [
@@ -23,7 +25,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private countryService: CountryService
+    private countryService: CountryService,
+    private exportCsvService: ExportCsvService
   ) {}
 
   ngOnInit(): void {
@@ -72,7 +75,7 @@ export class HeaderComponent implements OnInit {
         }
       });
     }
-    this.setValidationBorders(); // Appel de la méthode pour définir les bordures de validation
+    this.setValidationBorders();
   }
 
   resetForm() {
@@ -124,5 +127,18 @@ export class HeaderComponent implements OnInit {
         this.resetBorders();
       });
     });
+  }
+
+  exportCountries() {
+    const headers = [
+      { id: 'name', title: 'Nom' },
+      { id: 'superficie', title: 'Superficie' },
+      { id: 'population', title: 'Population' },
+      { id: 'continent', title: 'Continent' },
+      { id: 'produit_interieur_brut', title: 'Produit intérieur brut' },
+      { id: 'imageUrl', title: 'Image URL' }
+    ];
+    const data = this.countryService.getCountries();
+    this.exportCsvService.exportToCsv(data, 'countries.csv', headers);
   }
 }

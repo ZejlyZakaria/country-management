@@ -1,4 +1,4 @@
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg mb-6">
   <table class="w-full text-sm text-left rtl:text-right text-gray-500">
     <thead class="text-xs text-gray-700 uppercase border-b-2 border-gray-200">
       <tr>
@@ -161,12 +161,28 @@
         >
           {{ country.name }}
         </th>
-        <td class="px-6 py-4">
+        <td
+          class="px-6 py-4 cursor-pointer"
+          routerLink="country/{{ country.id }}"
+        >
           {{ country.population }}
         </td>
-        <td class="px-6 py-4 bg-gray-50">{{ country.superficie }} Km²</td>
-        <td class="px-6 py-4">{{ country.continent }}</td>
-        <td class="px-6 py-4 bg-gray-50">
+        <td
+          class="px-6 py-4 cursor-pointer bg-gray-50"
+          routerLink="country/{{ country.id }}"
+        >
+          {{ country.superficie }} Km²
+        </td>
+        <td
+          class="px-6 py-4 cursor-pointer"
+          routerLink="country/{{ country.id }}"
+        >
+          {{ country.continent }}
+        </td>
+        <td
+          class="px-6 py-4 cursor-pointer bg-gray-50"
+          routerLink="country/{{ country.id }}"
+        >
           {{ country.produit_interieur_brut }} $
         </td>
         <td class="px-6 py-4">
