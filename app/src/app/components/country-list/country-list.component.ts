@@ -3,25 +3,33 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CountryService } from '../../country.service';
 import * as $ from 'jquery';
 
+enum SortableFields {
+  Name = 'name',
+  Population = 'population',
+  Superficie = 'superficie',
+  Continent = 'continent',
+  ProduitInterieurBrut = 'produit_interieur_brut',
+}
 
 @Component({
   selector: 'app-country-list',
   templateUrl: './country-list.component.html',
-  styleUrls: ['./country-list.component.css']
+  styleUrls: ['./country-list.component.css'],
 })
 export class CountryListComponent implements OnInit {
   countries: any[] = [];
-  filteredCountries: any[] = [];
   editCountryForm!: FormGroup;
   selectedCountry!: any;
   filterName: string = '';
+  SortableFields = SortableFields; // Ajout de la propriété SortableFields
 
-
-  constructor(private countryService: CountryService, private fb: FormBuilder) { }
+  constructor(
+    private countryService: CountryService,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.countries = this.countryService.getCountries();
-    this.filteredCountries = [...this.countries];
     this.createEditForm();
     this.showEditModal();
     this.hideEditModal();
@@ -52,7 +60,6 @@ export class CountryListComponent implements OnInit {
       };
       this.countryService.updateCountry(updatedCountry);
       this.countries = this.countryService.getCountries(); // Update countries array
-      this.filterCountriesByName(); // Reapply filtering
       this.hideEditModal();
     }
   }
@@ -61,7 +68,7 @@ export class CountryListComponent implements OnInit {
     $(document).ready(() => {
       $('.show-edit-modal-button').on('click', (event) => {
         const countryId = $(event.currentTarget).data('countryId');
-        const country = this.countries.find(c => c.id === countryId);
+        const country = this.countries.find((c) => c.id === countryId);
         if (country) {
           this.openEditModal(country);
         }
@@ -78,19 +85,15 @@ export class CountryListComponent implements OnInit {
     $('#edit-modal').removeClass('flex').addClass('hidden');
   }
 
-
-  filterCountriesByName(): void {
-    if (this.filterName.trim() === '') {
-      this.filteredCountries = [...this.countries];
-    } else {
-      this.filteredCountries = this.countries.filter(country =>
-        country.name.toLowerCase().includes(this.filterName.toLowerCase())
-      );
-    }
-  }
-
-  onAddCountry(country: any) {
-    this.countries = this.countryService.getCountries(); // Update countries array
-    this.filterCountriesByName(); // Reapply filtering
+  sortCountriesBy(field: SortableFields): void {
+    this.countries.sort((a, b) => {
+      if (a[field] < b[field]) {
+        return -1;
+      } else if (a[field] > b[field]) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
   }
 }

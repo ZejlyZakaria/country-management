@@ -6,6 +6,7 @@
           <div class="flex justify-between">
             <div>Nom</div>
             <svg
+              (click)="sortCountriesBy(SortableFields.Name)"
               class="cursor-pointer"
               width="18px"
               height="18px"
@@ -35,6 +36,7 @@
           <div class="flex justify-between">
             <div>Population</div>
             <svg
+              (click)="sortCountriesBy(SortableFields.Population)"
               class="cursor-pointer"
               width="18px"
               height="18px"
@@ -63,6 +65,7 @@
           <div class="flex justify-between">
             <div>Superficie</div>
             <svg
+              (click)="sortCountriesBy(SortableFields.Superficie)"
               class="cursor-pointer"
               width="18px"
               height="18px"
@@ -91,6 +94,7 @@
           <div class="flex justify-between">
             <div>Continent</div>
             <svg
+              (click)="sortCountriesBy(SortableFields.Continent)"
               class="cursor-pointer"
               width="18px"
               height="18px"
@@ -119,6 +123,7 @@
           <div class="flex justify-between">
             <div>Produit Intérieur Brut</div>
             <svg
+              (click)="sortCountriesBy(SortableFields.ProduitInterieurBrut)"
               class="cursor-pointer"
               width="18px"
               height="18px"
