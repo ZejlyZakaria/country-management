@@ -1,0 +1,26 @@
+<section class="min-h-[100vh]">
+  <div class="w-full flex items-center justify-center">
+    <div class="xl:w-[76%] w-[96%]">
+      <div class="flex justify-between mb-12 mt-12">
+        <div class="text-lg font-bold">{{ country.name }}</div>
+        <div
+          class="border border-gray-600 hover:border-blue-800 font-medium rounded-lg text-sm px-6 py-2.5 mr-2 text-gray-800 cursor-pointer mb-4"
+          routerLink="/"
+        >
+          Gestion des pays
+        </div>
+      </div>
+      <div class="flex justify-between">
+        <div>
+          <p>Nom : {{ country.name }}</p>
+          <p>Population : {{ country.population }}</p>
+          <p>Continent : {{ country.continent }}</p>
+          <p>Produit intérieur brut : {{ country.produit_interieur_brut }}</p>
+        </div>
+        <div class="w-[300px] h-[220px]">
+          <img src="{{ country.imageUrl }}" alt="Image of {{ country.name }}" class="rounded-md" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

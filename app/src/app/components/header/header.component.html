@@ -1,0 +1,232 @@
+<section>
+  <div class="flex justify-between mb-12 mt-12">
+    <div class="text-lg font-bold">Gestion des pays</div>
+    <div class="buttons">
+      <div class="flex justify-between mb-4">
+        <div
+          class="border border-gray-600 hover:border-blue-800 font-medium rounded-lg text-sm px-6 py-2.5 mr-2 text-gray-800 cursor-pointer"
+        >
+          Rechercher
+        </div>
+        <div
+          class="border border-gray-600 hover:border-blue-800 font-medium rounded-lg text-sm px-6 py-2.5 text-gray-800 cursor-pointer"
+        >
+          Exporter en CSV
+        </div>
+      </div>
+      <div class="grid justify-items-end">
+        <div
+          class="border border-gray-600 hover:border-blue-800 font-medium rounded-lg text-sm px-6 py-2.5 text-gray-800 cursor-pointer show-add-modal-button"
+        >
+          Ajouter
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Add modal -->
+<div
+  id="add-modal"
+  tabindex="-1"
+  aria-hidden="true"
+  class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 flex items-center justify-center"
+>
+  <div class="fixed inset-0 bg-black opacity-50"></div>
+  <div class="relative p-4 w-full max-w-xl max-h-full">
+    <!-- Modal content -->
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <!-- Modal header -->
+      <div
+        class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
+      >
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+          Ajouter un nouveau pays
+        </h3>
+        <button
+          type="button"
+          class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+          data-modal-toggle="add-modal"
+        >
+          <svg
+            class="w-3 h-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+      </div>
+      <!-- Modal body -->
+      <form
+        class="p-4 md:p-5"
+        [formGroup]="addCountryForm"
+        (ngSubmit)="onSubmit()"
+        *ngIf="addCountryForm"
+      >
+        <div class="grid gap-4 mb-4 grid-cols-2">
+          <div class="col-span-2">
+            <label
+              for="name"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Nom du pays</label
+            >
+            <input
+              type="text"
+              name="name"
+              id="name"
+              [class.border-red-500]="
+                addCountryForm.get('name')?.invalid &&
+                addCountryForm.get('name')?.touched
+              "
+              class="test bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="Tapez le nom du pays"
+              formControlName="name"
+              required
+            />
+          </div>
+
+          <div class="col-span-2 sm:col-span-1">
+            <label
+              for="population"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Population (en millions)</label
+            >
+            <input
+              type="number"
+              name="population"
+              id="population"
+              [class.border-red-500]="
+                addCountryForm.get('population')?.invalid &&
+                addCountryForm.get('population')?.touched
+              "
+              class="test bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="Ex: 10"
+              formControlName="population"
+              required
+            />
+          </div>
+
+          <div class="col-span-2 sm:col-span-1">
+            <label
+              for="continent"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Continent</label
+            >
+            <select
+              id="continent"
+              name="continent"
+              [class.border-red-500]="
+                addCountryForm.get('continent')?.invalid &&
+                addCountryForm.get('continent')?.touched
+              "
+              class="test bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              formControlName="continent"
+              required
+            >
+              <option value="" disabled selected>
+                Sélectionnez un continent
+              </option>
+              <option value="Afrique">Afrique</option>
+              <option value="Amérique du sud">Amérique du sud</option>
+              <option value="Amérique du nord">Amérique du nord</option>
+              <option value="Asie">Asie</option>
+              <option value="Europe">Europe</option>
+              <option value="Océanie">Océanie</option>
+            </select>
+          </div>
+
+          <div class="col-span-2">
+            <label
+              for="superficie"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Superficie (en Km²)</label
+            >
+            <input
+              type="number"
+              id="superficie"
+              name="superficie"
+              [class.border-red-500]="
+                addCountryForm.get('superficie')?.invalid &&
+                addCountryForm.get('superficie')?.touched
+              "
+              class="test bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="Ex: 1000000"
+              formControlName="superficie"
+              required
+            />
+          </div>
+
+          <div class="col-span-2">
+            <label
+              for="produit_interieur_brut"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Produit intérieur brut (en dollar)</label
+            >
+            <input
+              type="number"
+              id="produit_interieur_brut"
+              name="produit_interieur_brut"
+              [class.border-red-500]="
+                addCountryForm.get('produit_interieur_brut')?.invalid &&
+                addCountryForm.get('produit_interieur_brut')?.touched
+              "
+              class="test bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="Ex: 1000000"
+              formControlName="produit_interieur_brut"
+              required
+            />
+          </div>
+
+          <div class="col-span-2">
+            <label
+              for="imageUrl"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >URL de l'image</label
+            >
+            <input
+              type="text"
+              id="imageUrl"
+              name="imageUrl"
+              [class.border-red-500]="
+                addCountryForm.get('imageUrl')?.invalid &&
+                addCountryForm.get('imageUrl')?.touched
+              "
+              class="test bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="http://"
+              formControlName="imageUrl"
+              required
+            />
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          <svg
+            class="me-1 -ms-1 w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          Ajouter un pays
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
